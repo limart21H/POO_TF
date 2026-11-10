@@ -1,5 +1,6 @@
 package enums;
 
+
 public enum TipoTerreno {
     URBANO(1.3),
     IRREGULAR(1.5),

@@ -1,8 +1,7 @@
+package excecoes;
 
 public class RoboIndisponivelException extends RegraNegocioException {
-
-    public RoboIndisponivelException(String message) {
-        super(message);
+    public RoboIndisponivelException(String msg) {
+        super(msg);
     }
-
 }

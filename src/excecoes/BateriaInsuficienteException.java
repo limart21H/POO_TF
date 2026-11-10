@@ -1,8 +1,7 @@
+package excecoes;
 
 public class BateriaInsuficienteException extends RegraNegocioException {
-
-    public BateriaInsuficienteException(String message) {
-        super(message);
+    public BateriaInsuficienteException(String msg) {
+        super(msg);
     }
-
 }

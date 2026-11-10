@@ -1,5 +1,7 @@
 package enums;
 
+
+
 public enum NivelRisco {
     BAIXO(1.0),
     MEDIO(1.2),

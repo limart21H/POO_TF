@@ -1,8 +1,7 @@
+package excecoes;
 
 public class RegraNegocioException extends Exception {
-
-    public RegraNegocioException(String message) {
-        super(message);
+    public RegraNegocioException(String msg) {
+        super(msg);
     }
-
 }

@@ -1,5 +1,7 @@
 package enums;
 
+
+
 public enum StatusRobo {
     EM_MANUTENCAO,
     DISPONIVEL,

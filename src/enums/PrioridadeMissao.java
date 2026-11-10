@@ -1,5 +1,6 @@
 package enums;
 
+
 public enum PrioridadeMissao {
     BAIXA(1),
     MEDIA(2),
