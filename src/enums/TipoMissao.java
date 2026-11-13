@@ -1,6 +1,5 @@
 package enums;
 
-
 public enum TipoMissao {
     RECONHECIMENTO("Reconhecimento", 20),
     LOCALIZAR_PESSOAS("Localizar Pessoas", 30),
