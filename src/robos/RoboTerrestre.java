@@ -5,9 +5,6 @@ public class RoboTerrestre extends Robo {
 
     public RoboTerrestre(int id, String nome, double nivelBateria, double capacidadeCarga) {
         super(id, nome, nivelBateria);
-        if (capacidadeCarga <= 0) {
-            throw new DadosInvalidosException("A capacidade de carga deve ser maior que zero.");
-        }
         this.capacidadeCarga = capacidadeCarga;
     }
 
