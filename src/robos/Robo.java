@@ -16,15 +16,6 @@ public abstract class Robo implements Comunicavel, Serializable {
     private final List<String> historicoMensagens = new ArrayList<>();
 
     protected Robo(int id, String nome, double nivelBateria) {
-        if (id <= 0) {
-            throw new DadosInvalidosException("O id do robô deve ser maior que zero.");
-        }
-        if (nome == null || nome.isBlank()) {
-            throw new DadosInvalidosException("O nome do robô não pode ser vazio.");
-        }
-        if (nivelBateria < 0 || nivelBateria > 100) {
-            throw new DadosInvalidosException("A bateria deve estar entre 0 e 100: " + nivelBateria);
-        }
         this.id = id;
         this.nome = nome;
         this.nivelBateria = nivelBateria;
