@@ -2,6 +2,9 @@ package operacoes;
 
 import enums.NivelRisco;
 import enums.StatusMissao;
+import enums.TipoMissao;
+import enums.TipoTerreno;
+
 import java.util.*;
 import java.util.stream.Collectors;
 import robos.Robo;
@@ -239,4 +242,7 @@ public class CentralResgate {
             .thenComparingInt(Missao::getId);
     }
    
+    public double calcularConsumo(TipoMissao tipo, TipoTerreno terreno, NivelRisco risco) {
+    return tipo.getPercentualBateria() * terreno.getMultiplicador() * risco.getMultiplicador();
+}
 }
