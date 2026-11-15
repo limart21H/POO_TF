@@ -1,6 +1,9 @@
+package robos;
+
+import enums.TipoMissao;
+
 public class RoboTerrestre extends Robo {
     private static final long serialVersionUID = 1L;
-
     private final double capacidadeCarga;
 
     public RoboTerrestre(int id, String nome, double nivelBateria, double capacidadeCarga) {

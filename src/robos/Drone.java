@@ -1,5 +1,10 @@
 package robos;
 
+import enums.TipoMissao;
+import enums.TipoTerreno;
+import enums.NivelRisco;
+
+
 public class Drone extends Robo {
     private static final long serialVersionUID = 1L;
 

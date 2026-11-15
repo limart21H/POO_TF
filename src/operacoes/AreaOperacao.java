@@ -6,7 +6,8 @@ import enums.TipoTerreno;
 import java.io.Serializable;
 
 
- public class AreaOperacao implements Serializable {
+public class AreaOperacao implements Serializable {
+private static final long serialVersionUID = 1L;
  private String nome;
  private final int id;
  private String localizacao;
@@ -14,13 +15,13 @@ import java.io.Serializable;
  private String descricao;
  private NivelRisco nivelRisco;
 
- public AreaOperacao(String nome, int id,String localizacao, TipoTerreno tipoTerreno, String descricao,NivelRisco nivelRisco){
-    this.nome = nome;
-    this.id = id;
-    this.localizacao = localizacao;
-    this.tipoTerreno = tipoTerreno;
-    this.descricao = descricao;
-    this.nivelRisco = nivelRisco;
+public AreaOperacao(String nome, int id,String localizacao, TipoTerreno tipoTerreno, String descricao,NivelRisco nivelRisco){
+   this.nome = nome;
+   this.id = id;
+   this.localizacao = localizacao;
+   this.tipoTerreno = tipoTerreno;
+   this.descricao = descricao;
+   this.nivelRisco = nivelRisco;
  }
  
  public NivelRisco atualizarNivelRisco(NivelRisco novoNivel){

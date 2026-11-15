@@ -1,10 +1,11 @@
 package operacoes;
 
 import enums.*;
-import robos.Robo;
 import java.io.Serializable;
+import robos.Robo;
 
 public class Missao implements Serializable{
+    private static final long serialVersionUID = 1L;
     private final int id;
     private String descricao;
     private TipoMissao tipo;
@@ -15,7 +16,6 @@ public class Missao implements Serializable{
     private String resultado;       
 
     public Missao(int id, String descricao, TipoMissao tipo,AreaOperacao area, PrioridadeMissao prioridade) {
-        private static final long serialVersionUID = 1L;
         this.id = id;
         this.descricao = descricao;
         this.tipo = tipo;
