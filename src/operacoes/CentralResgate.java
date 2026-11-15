@@ -7,9 +7,11 @@ import enums.TipoTerreno;
 
 import java.util.*;
 import java.util.stream.Collectors;
+import java.util.io.Serializable;
 import robos.Robo;
 
-public class CentralResgate {
+public class CentralResgate implements Serializable{
+    private static final long serialVersionUID = 1L;
     private String nome;
     private Map<Integer, Robo> robos;
     private Map<Integer, AreaOperacao> areas;
