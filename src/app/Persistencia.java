@@ -1,13 +1,12 @@
 package app;
 
-import operacoes.CentralResgate;
-
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import operacoes.CentralResgate;
 
 public class Persistencia {
     private static final String PASTA = "dados";
@@ -15,7 +14,7 @@ public class Persistencia {
     private static final String NOME_CENTRAL = "Central de Resgate";
 
     public static boolean salvar(CentralResgate central){
-        if(central = null){
+        if(central == null){
             System.out.println("Erro ao salvar: não foi possível criar pasta.");
             return false;
         }

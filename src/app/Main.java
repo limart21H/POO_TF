@@ -41,28 +41,28 @@ public class Main {
                         solicitarMissao();
                         break;
                     case 4:
-                        executarMissao():
+                        executarMissao();
                         break;
                     case 5:
-                        listarRobos():
+                        listarRobos();
                         break;
                     case 6:
                         listarMissoes();
                         break;
                     case 7:
-                        recarregarRobo():
+                        recarregarRobo();
                         break;
                     case 8:
-                        cancelarMIssao():
+                        cancelarMissao();
                         break;
                     case 9:
-                        mostrarRelatorio():
+                        mostrarRelatorio();
                         break;
                     case 10:
-                        carregarDemonstracao():
+                        carregarDemonstracao();
                         break;
                     case 0:
-                        rodando = !sair():
+                        rodando = !sair();
                         break;
                     default:
                         System.out.println("Opção inválida. Escolha um número do menu.");
