@@ -1,8 +1,10 @@
 package robos;
+
 import enums.NivelRisco;
 import enums.StatusRobo;
 import enums.TipoMissao;
 import enums.TipoTerreno;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -16,9 +18,18 @@ public abstract class Robo implements Comunicavel, Serializable {
     private double nivelBateria;
     private StatusRobo status;
     private int missoesRealizadas;
-    private final List<String> historicoMensagens = new ArrayList<>();
+    private final List<Mensagem> historicoMensagens = new ArrayList<>();
 
     protected Robo(int id, String nome, double nivelBateria) {
+        if (id <= 0) {
+            throw new IllegalArgumentException("O id do robô deve ser maior que zero.");
+        }
+        if (nome == null || nome.isBlank()) {
+            throw new IllegalArgumentException("O nome do robô não pode ser vazio.");
+        }
+        if (nivelBateria < 0 || nivelBateria > 100) {
+            throw new IllegalArgumentException("A bateria deve estar entre 0 e 100: " + nivelBateria);
+        }
         this.id = id;
         this.nome = nome;
         this.nivelBateria = nivelBateria;
@@ -28,8 +39,25 @@ public abstract class Robo implements Comunicavel, Serializable {
 
     public abstract boolean podeExecutar(TipoMissao tipo);
 
+    public abstract String executarMissao(TipoMissao tipo, TipoTerreno terreno, NivelRisco risco);
+
     public double calcularConsumo(TipoMissao tipo, TipoTerreno terreno, NivelRisco risco) {
         return tipo.getPercentualBateria() * terreno.getMultiplicador() * risco.getMultiplicador();
+    }
+
+    public void validarAtribuicao(TipoMissao tipo, TipoTerreno terreno, NivelRisco risco) {
+        if (!verificarDisponibilidade()) {
+            throw new IllegalStateException("O robô " + nome + " não está disponível (status " + status + ").");
+        }
+        if (!podeExecutar(tipo)) {
+            throw new UnsupportedOperationException("O robô " + nome + " (" + getClass().getSimpleName()
+                    + ") não executa a missão " + tipo.getDescricao() + ".");
+        }
+        double consumo = calcularConsumo(tipo, terreno, risco);
+        if (nivelBateria < consumo) {
+            throw new IllegalStateException(String.format(
+                    "Bateria insuficiente em %s: tem %.1f%% e a missão consome %.1f%%.", nome, nivelBateria, consumo));
+        }
     }
 
     protected void iniciar() {
@@ -63,30 +91,22 @@ public abstract class Robo implements Comunicavel, Serializable {
 
     @Override
     public void enviarMensagem(String mensagem) {
-        historicoMensagens.add("ENVIADA: " + mensagem);
+        historicoMensagens.add(new Mensagem(nome, mensagem, true));
         System.out.println("[" + nome + " -> CENTRAL] " + mensagem);
     }
 
     @Override
     public void receberMensagem(String mensagem) {
-        historicoMensagens.add("RECEBIDA: " + mensagem);
+        historicoMensagens.add(new Mensagem("CENTRAL", mensagem, false));
         System.out.println("[CENTRAL -> " + nome + "] " + mensagem);
     }
 
-    public int getId() {
-        return id;
-    }
-    public String getNome() {
-        return nome;
-    }
-    public StatusRobo getStatus() {
-        return status;
-    }
-    public int getMissoesRealizadas() {
-        return missoesRealizadas;
-    }
+    public int getId() { return id; }
+    public String getNome() { return nome; }
+    public StatusRobo getStatus() { return status; }
+    public int getMissoesRealizadas() { return missoesRealizadas; }
 
-    public List<String> getHistoricoMensagens() {
+    public List<Mensagem> getHistoricoMensagens() {
         return Collections.unmodifiableList(historicoMensagens);
     }
 
@@ -95,21 +115,4 @@ public abstract class Robo implements Comunicavel, Serializable {
         return String.format("%s #%d %s | bateria %.1f%% | %s | missões: %d",
                 getClass().getSimpleName(), id, nome, nivelBateria, status, missoesRealizadas);
     }
-
-    @Override
-    public boolean equals(Object outro) {
-        if (this == outro) {
-            return true;
-        }
-        if (!(outro instanceof Robo)) {
-            return false;
-        }
-        return id == ((Robo) outro).id;
-    }
-
-    @Override
-    public int hashCode() {
-        return Integer.hashCode(id);
-    }
 }
-

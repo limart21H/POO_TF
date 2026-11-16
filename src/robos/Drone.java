@@ -54,4 +54,3 @@ public class Drone extends Robo {
         return super.toString() + " | altitude máx.: " + altitudeMaxima + " m";
     }
 }
-
