@@ -1,5 +1,8 @@
 package robos;
-
+import enums.NivelRisco;
+import enums.StatusRobo;
+import enums.TipoMissao;
+import enums.TipoTerreno;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -70,17 +73,17 @@ public abstract class Robo implements Comunicavel, Serializable {
         System.out.println("[CENTRAL -> " + nome + "] " + mensagem);
     }
 
-    public int getId() { 
-        return id; 
+    public int getId() {
+        return id;
     }
-    public String getNome() { 
-        return nome; 
+    public String getNome() {
+        return nome;
     }
-    public StatusRobo getStatus() { 
-        return status; 
+    public StatusRobo getStatus() {
+        return status;
     }
-    public int getMissoesRealizadas() { 
-        return missoesRealizadas; 
+    public int getMissoesRealizadas() {
+        return missoesRealizadas;
     }
 
     public List<String> getHistoricoMensagens() {
