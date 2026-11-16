@@ -1,9 +1,8 @@
 package robos;
 
+import enums.NivelRisco;
 import enums.TipoMissao;
 import enums.TipoTerreno;
-import enums.NivelRisco;
-
 
 public class Drone extends Robo {
     private static final long serialVersionUID = 1L;
@@ -13,7 +12,7 @@ public class Drone extends Robo {
     public Drone(int id, String nome, double nivelBateria, double altitudeMaxima) {
         super(id, nome, nivelBateria);
         if (altitudeMaxima <= 0) {
-            throw new DadosInvalidosException("A altitude máxima deve ser maior que zero.");
+            throw new IllegalArgumentException("A altitude máxima deve ser maior que zero.");
         }
         this.altitudeMaxima = altitudeMaxima;
     }
@@ -28,8 +27,7 @@ public class Drone extends Robo {
     }
 
     @Override
-    public String executarMissao(TipoMissao tipo, TipoTerreno terreno, NivelRisco risco)
-            throws RoboIndisponivelException, MissaoIncompativelException, BateriaInsuficienteException {
+    public String executarMissao(TipoMissao tipo, TipoTerreno terreno, NivelRisco risco) {
         validarAtribuicao(tipo, terreno, risco);
         double consumo = calcularConsumo(tipo, terreno, risco);
         iniciar();

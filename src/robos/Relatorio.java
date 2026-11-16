@@ -4,7 +4,6 @@ import enums.StatusMissao;
 import enums.StatusRobo;
 import operacoes.CentralResgate;
 import operacoes.Missao;
-
 import java.io.BufferedWriter;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
@@ -95,9 +94,23 @@ public class Relatorio {
         }
     }
 
-    public LocalDateTime getDataGeracao() { return dataGeracao; }
-    public int getTotalRobos() { return totalRobos; }
-    public int getTotalMissoes() { return totalMissoes; }
-    public int getMissoesConcluidas() { return missoesConcluidas; }
-    public int getMissoesPendentes() { return missoesPendentes; }
+    public LocalDateTime getDataGeracao() { 
+        return dataGeracao; 
+    }
+
+    public int getTotalRobos() { 
+        return totalRobos; 
+    }
+
+    public int getTotalMissoes() { 
+        return totalMissoes; 
+    }
+
+    public int getMissoesConcluidas() { 
+        return missoesConcluidas; 
+    }
+
+    public int getMissoesPendentes() { 
+        return missoesPendentes; 
+    }
 }
