@@ -5,19 +5,16 @@ import enums.PrioridadeMissao;
 import enums.StatusMissao;
 import enums.TipoMissao;
 import enums.TipoTerreno;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.Scanner;
 import operacoes.AreaOperacao;
 import operacoes.CentralResgate;
 import operacoes.Missao;
 import robos.Drone;
 import robos.Robo;
 import robos.RoboTerrestre;
-
-import java.util.List;
-import java.util.NoSuchElementException;
-import java.util.Scanner;
-import java.util.ArrayList;
-
-import java.util.Scanner;
 
 public class Main {
     private static final Scanner scanner = new Scanner(System.in);
@@ -27,7 +24,7 @@ public class Main {
         boolean rodando = true;
         while(rodando){
             mostrarMenu();
-            int opcao = lerOpecaoMenu();
+            int opcao = lerOpcaoMenu();
             
             try{
                 switch(opcao){
@@ -450,5 +447,5 @@ public class Main {
         if (escolha == null) return null;
         return valores[escolha - 1];
     }
-    }
 }
+

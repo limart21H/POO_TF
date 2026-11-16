@@ -54,5 +54,4 @@ public class Persistencia {
         }
         return new CentralResgate(NOME_CENTRAL);
     }
-
 }
