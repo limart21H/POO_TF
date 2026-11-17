@@ -105,7 +105,7 @@ public class CentralResgate implements Serializable{
         if (!missao.atribuirRobo(robo)) {
             return false;
         }
-        robo.receberMensagem("Missão #" + missao.getId() + " atribuída a você.");
+        robo.receberMensagem("Missão " + missao.getId() + " atribuída a você.");
         return true;
     }
    
@@ -223,28 +223,50 @@ public class CentralResgate implements Serializable{
     }
 
     private boolean estaComprometido(Robo robo) {
-    return missoes.values().stream()
+      return missoes.values().stream()
             .anyMatch(m -> m.getRoboResponsavel() == robo
                     && (m.getStatus() == StatusMissao.PENDENTE
                         || m.getStatus() == StatusMissao.EM_ANDAMENTO));
     }
 
     private double consumoPrevisto(Robo robo, Missao missao) {
-    AreaOperacao a = missao.getArea();
-    return robo.calcularConsumo(missao.getTipo(), a.getTipoTerreno(), a.getNivelRisco());
+      AreaOperacao a = missao.getArea();
+       return robo.calcularConsumo(missao.getTipo(), a.getTipoTerreno(), a.getNivelRisco());
     }
 
     private double pontuacaoFila(Missao m) {
-    return m.getPrioridade().getPeso() * 10
+        return m.getPrioridade().getPeso() * 10
             + m.getArea().getNivelRisco().getMultiplicador();
     }
 
     private Comparator<Missao> comparadorFila() {
-    return Comparator.comparingDouble((Missao m) -> pontuacaoFila(m)).reversed()
+     return Comparator.comparingDouble((Missao m) -> pontuacaoFila(m)).reversed()
             .thenComparingInt(Missao::getId);
     }
    
     public double calcularConsumo(TipoMissao tipo, TipoTerreno terreno, NivelRisco risco) {
-    return tipo.getPercentualBateria() * terreno.getMultiplicador() * risco.getMultiplicador();
+        return tipo.getPercentualBateria() * terreno.getMultiplicador() * risco.getMultiplicador();
+    }
+    
+    public boolean cancelarMissao(int idMissao) {
+    Missao missao = buscarMissao(idMissao);
+    if (missao == null) {
+        return false;
+    }
+
+    Robo robo = missao.getRoboResponsavel();
+
+    if (!missao.cancelar()) {         
+        return false;
+    }
+
+    missoesPendentes.remove(missao);   
+
+    if (robo != null) {
+        robo.receberMensagem("Missão " + missao.getId() + " foi cancelada. Você está liberado.");
+    }
+
+    reprocessarPendentes();            
+    return true;
 }
 }
