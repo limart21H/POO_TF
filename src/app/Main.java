@@ -5,6 +5,8 @@ import enums.PrioridadeMissao;
 import enums.StatusMissao;
 import enums.TipoMissao;
 import enums.TipoTerreno;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -13,6 +15,7 @@ import operacoes.AreaOperacao;
 import operacoes.CentralResgate;
 import operacoes.Missao;
 import robos.Drone;
+import robos.Relatorio;
 import robos.Robo;
 import robos.RoboTerrestre;
 
@@ -68,7 +71,7 @@ public class Main {
                 System.out.println("Erro: " + e.getMessage());
             }
         }
-        System.out.print("Programa encerrado.");
+        System.out.println("Programa encerrado.");
     }
 
     private static void mostrarMenu() {
@@ -198,7 +201,7 @@ public class Main {
             if (m.getStatus() == StatusMissao.PENDENTE && m.getRoboResponsavel() != null) {
                 prontas.add(m);
             }
-    }
+        }
 
         if (prontas.isEmpty()) {
             System.out.println("Nenhuma missão pronta para executar (é preciso ter robô atribuído).");
@@ -283,15 +286,76 @@ public class Main {
     }
 
     private static void cancelarMissao() {
-        // A central ainda não tem um método próprio de cancelamento.
-        // Não chame missao.cancelar() direto: a missão continuaria na fila de pendentes.
-        System.out.println("Cancelamento de missão em desenvolvimento.");
+        List<Missao> cancelaveis = new ArrayList<>();
+        for (Missao m : central.listarMissoes()) {
+            if (m.getStatus() == StatusMissao.PENDENTE) {
+                cancelaveis.add(m);
+            }
+        }
+
+        if (cancelaveis.isEmpty()) {
+            System.out.println("Nenhuma missão pendente para cancelar.");
+            return;
+        }
+
+        System.out.println("Missões que podem ser canceladas:");
+        for (Missao m : cancelaveis) {
+            String robo;
+            if(m.getRoboResponsavel() != null){
+                robo =  m.getRoboResponsavel().getNome();
+            }else{
+                robo = "na fila, sem robô";
+            }
+            System.out.println("  " + m.getId() + " - " + m.getDescricao() + " [" + robo + "]");
+        }
+
+        Missao missao = pedirMissao();
+        if (missao == null) return;
+
+        if (!confirmar("Confirma o cancelamento da missão " + missao.getId() + "? (S/N): ")) {
+            System.out.println("Cancelamento abortado.");
+            return;
+        }
+
+        // O cancelamento é feito pela central: ela tira a missão da fila, avisa o robô e
+        // reprocessa as pendentes.
+        if (central.cancelarMissao(missao.getId())) {
+            System.out.println("Missões ainda pendentes na fila: " + central.listarMissoesPendentes().size());
+        } else {
+            System.out.println("A missão não foi cancelada.");
+        }
     }
 
     private static void mostrarRelatorio() {
-        // Quando a classe Relatorio estiver pronta, trocar por: criar o Relatorio com a central,
-        // imprimir gerarResumo() e oferecer salvarEmArquivo() (tratando IOException).
-        central.gerarRelatorioGeral();
+        Relatorio relatorio = new Relatorio(central);
+        System.out.println(relatorio.gerarResumo());
+
+        if (!confirmar("Deseja salvar o relatório em arquivo? (S/N): ")) return;
+
+        String nome;
+        while (true) {
+            nome = lerTexto("Nome do arquivo (ex.: relatorio): ");
+            if (nome == null) return;
+            if (!nome.contains("/") && !nome.contains("\\") && !nome.contains(":")) break;
+            if (!digitarNovamente("O nome não pode conter / \\ ou :.")) return;
+        }
+        if (!nome.toLowerCase().endsWith(".txt")) {
+            nome = nome + ".txt";
+        }
+
+        File pasta = new File("relatorios");
+        if (!pasta.exists() && !pasta.mkdirs()) {
+            System.out.println("Erro: não foi possível criar a pasta 'relatorios'.");
+            return;
+        }
+
+        String caminho = "relatorios" + File.separator + nome;
+        try {
+            relatorio.salvarEmArquivo(caminho);
+            System.out.println("Relatório salvo em " + caminho);
+        } catch (IOException e) {
+            System.out.println("Erro ao salvar o relatório: " + e.getMessage());
+        }
     }
 
     private static void carregarDemonstracao() {
@@ -387,6 +451,11 @@ public class Main {
             if (resposta.equals("0")) return false;
             System.out.println("Digite 1 ou 0.");
         }
+    }
+
+    private static boolean confirmar(String pergunta) {
+        System.out.print(pergunta);
+        return lerLinha().trim().equalsIgnoreCase("S");
     }
 
     private static String lerTexto(String pergunta) {

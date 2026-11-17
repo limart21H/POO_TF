@@ -15,7 +15,7 @@ public class Persistencia {
 
     public static boolean salvar(CentralResgate central){
         if(central == null){
-            System.out.println("Erro ao salvar: não foi possível criar pasta.");
+            System.out.println("Erro ao salvar: não há central.");
             return false;
         }
 

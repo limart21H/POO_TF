@@ -2,8 +2,6 @@ package robos;
 
 import enums.StatusMissao;
 import enums.StatusRobo;
-import operacoes.CentralResgate;
-import operacoes.Missao;
 import java.io.BufferedWriter;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
@@ -13,6 +11,8 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.stream.Collectors;
+import operacoes.CentralResgate;
+import operacoes.Missao;
 
 public class Relatorio {
     private static final DateTimeFormatter FORMATO = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
